@@ -1,45 +1,106 @@
 <!DOCTYPE html>
-<html>
-<header>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reunião de Evangelização</title>
 
 <style>
 * {
-align-text: center;
-align-content: center;
-
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-display: flex;
-justify-content: center;
-flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center; /* centraliza tudo */
+  min-height: 100vh;
+  padding: 24px;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg, #f8f9ff 0%, #eef1ff 100%); /* fundo suave */
+  color: #333;
+  line-height: 1.6;
 }
 
-h1, h2{
-color: #3355dd;
+.container {
+  background: white;
+  padding: 28px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(51, 85, 221, 0.1);
+  max-width: 500px;
+  width: 100%;
 }
 
-a{
-color: #dd5533;
+h1 {
+  color: #3355dd;
+  font-size: 2.2rem; /* maior */
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+h2 {
+  color: #3355dd;
+  font-size: 1.4rem; /* maior */
+  font-weight: 600;
+  margin: 16px 0;
+}
+
+a {
+  display: inline-block;
+  color: #dd5533;
+  font-size: 1.1rem; /* maior */
+  font-weight: 600;
+  text-decoration: none;
+  background: #fff4f1;
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin: 16px 0;
+  border: 2px solid #dd5533;
+  transition: 0.2s;
+}
+a:hover {
+  background: #dd5533;
+  color: white;
+}
+
+p {
+  font-size: 1.1rem; /* maior */
+  margin-top: 20px;
+  color: #555;
+}
+
+.destaque {
+  background: #3355dd;
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 18px 0;
 }
 </style>
-</header>
+</head>
 <body>
-<h1>Reunião de Evangelização</h1>
-<h2>Jd Sta Rosa Sorocaba</h2>
+  <div class="container">
+    <h1>Reunião de Evangelização</h1>
+    <h2>Jd Sta Rosa - Sorocaba</h2>
 
-<a href="https://j5r.github.io/localizacao/localizacao.html?lat=-23.4619986&long=-47.4882246&nome=Reuni%C3%A3o+Evangeliza%C3%A7%C3%A3o+Sta+Rosa+S%C3%A1bado+15h" target="_blank">
-Localização: clique aqui e escolha uma opção para se deslocar.
-</a>
+    <a href="https://j5r.github.io/localizacao/localizacao.html?lat=-23.4619986&long=-47.4882246&nome=Reuni%C3%A3o+Evangeliza%C3%A7%C3%A3o+Sta+Rosa+S%C3%A1bado+15h" target="_blank">
+      📍 Localização: clique aqui
+    </a>
 
-<h2>Próxima Reunião: 18 de Julho às 15h.</h2>
+    <div class="destaque">
+      Próxima Reunião: 18 de Julho às 15h
+    </div>
 
-
-<p>Histórico:
-04/07/2026
-<br>
-20/06/2026 (primeira reunião)
-</p>
-
+    <p><b>Histórico:</b><br>
+    04/07/2026<br> João 14:1.12-16
+    20/06/2026 (primeira reunião)
+    </p>
+  </div>
 </body>
 </html>
