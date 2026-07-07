@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pegar Localização</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f8f9ff 0%, #eef1ff 100%);
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .card {
+    background: white;
+    padding: 30px 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(51, 85, 221, 0.1);
+    max-width: 400px;
+    width: 100%;
+  }
+
+  h1 {
+    color: #3355dd;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  button {
+    background: #dd5533;
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.2s;
+  }
+  button:active {
+    transform: scale(0.97);
+    background: #c44a2a;
+  }
+
+  #resultado {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f1f4ff;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    color: #333;
+    word-break: break-all;
+    display: none;
+  }
+
+  #copiado {
+    margin-top: 10px;
+    color: #28a745;
+    font-weight: 600;
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>📍 Pegar Minha Localização</h1>
+    
+    <button id="btnLocal">Clique para capturar</button>
+    
+    <div id="resultado"></div>
+    <div id="copiado">✅ Copiado para a área de transferência!</div>
+  </div>
+
+<script>
+const btn = document.getElementById('btnLocal');
+const resultado = document.getElementById('resultado');
+const copiado = document.getElementById('copiado');
+
+btn.addEventListener('click', () => {
+  resultado.style.display = 'none';
+  copiado.style.display = 'none';
+  btn.innerText = 'Buscando...';
+
+  if (!navigator.geolocation) {
+    alert('Seu navegador não suporta geolocalização');
+    btn.innerText = 'Clique para capturar';
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude.toFixed(6);
+      const long = position.coords.longitude.toFixed(6);
+      const texto = `Latitude: ${lat}\nLongitude: ${long}`;
+
+      resultado.innerHTML = `<b>Latitude:</b> ${lat} <br> <b>Longitude:</b> ${long}`;
+      resultado.style.display = 'block';
+      btn.innerText = 'Clique para capturar';
+
+      // Copia para a área de transferência
+      navigator.clipboard.writeText(`${lat}, ${long}`).then(() => {
+        copiado.style.display = 'block';
+        setTimeout(() => copiado.style.display = 'none', 3000);
+      });
+    },
+    (error) => {
+      alert('Erro ao pegar localização: ' + error.message);
+      btn.innerText = 'Clique para capturar';
+    },
+    {
+      enableHighAccuracy: true, // GPS mais preciso
+      timeout: 10000,
+      maximumAge: 0
+    }
+  );
+});
+</script>
+</body>
+</html>
