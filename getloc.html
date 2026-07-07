@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pegar Localização</title>
+<title>Abrir Localização</title>
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
   
@@ -31,11 +31,17 @@
   h1 {
     color: #3355dd;
     font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #555;
     margin-bottom: 20px;
+    font-size: 1rem;
   }
 
   button {
-    background: #dd5533;
+    background: #3355dd;
     color: white;
     border: none;
     padding: 16px 24px;
@@ -48,51 +54,53 @@
   }
   button:active {
     transform: scale(0.97);
-    background: #c44a2a;
+    background: #2842b3;
   }
 
-  #resultado {
+  #status {
     margin-top: 20px;
-    padding: 16px;
+    padding: 14px;
     background: #f1f4ff;
     border-radius: 10px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #333;
-    word-break: break-all;
-    display: none;
-  }
-
-  #copiado {
-    margin-top: 10px;
-    color: #28a745;
-    font-weight: 600;
     display: none;
   }
 </style>
 </head>
 <body>
   <div class="card">
-    <h1>📍 Pegar Minha Localização</h1>
+    <h1>📍 Enviar Minha Localização</h1>
+    <p>Clique e vamos abrir seu link com as coordenadas</p>
     
-    <button id="btnLocal">Clique para capturar</button>
+    <button id="btnLocal">Usar minha localização agora</button>
     
-    <div id="resultado"></div>
-    <div id="copiado">✅ Copiado para a área de transferência!</div>
+    <div id="status"></div>
   </div>
 
 <script>
+// === AQUI VOCÊ COLOCA SUA URL BASE ===
+// Use {lat} e {long} que o código troca automaticamente
+
+const URL_BASE = "https://j5r.github.io/localizacao/localizacao.html?lat={lat}&long={long}&nome={nome}";
+
+// Nome que vai aparecer na URL. Pode trocar
+const NOME_LOCAL = prompt("Digite o nome do local.") || "";
+
 const btn = document.getElementById('btnLocal');
-const resultado = document.getElementById('resultado');
-const copiado = document.getElementById('copiado');
+const status = document.getElementById('status');
 
 btn.addEventListener('click', () => {
-  resultado.style.display = 'none';
-  copiado.style.display = 'none';
+  status.style.display = 'none';
+  status.innerText = 'Buscando sua localização...';
+  status.style.display = 'block';
   btn.innerText = 'Buscando...';
+  btn.disabled = true;
 
   if (!navigator.geolocation) {
     alert('Seu navegador não suporta geolocalização');
-    btn.innerText = 'Clique para capturar';
+    btn.innerText = 'Usar minha localização agora';
+    btn.disabled = false;
     return;
   }
 
@@ -100,21 +108,25 @@ btn.addEventListener('click', () => {
     (position) => {
       const lat = position.coords.latitude.toFixed(6);
       const long = position.coords.longitude.toFixed(6);
-      const texto = `Latitude: ${lat}\nLongitude: ${long}`;
 
-      resultado.innerHTML = `<b>Latitude:</b> ${lat} <br> <b>Longitude:</b> ${long}`;
-      resultado.style.display = 'block';
-      btn.innerText = 'Clique para capturar';
+      // Monta a URL trocando os parâmetros
+      const urlFinal = URL_BASE
+        .replace('{lat}', lat)
+        .replace('{long}', long)
+        .replace('{nome}',NOME_LOCAL);
 
-      // Copia para a área de transferência
-      navigator.clipboard.writeText(`${lat}, ${long}`).then(() => {
-        copiado.style.display = 'block';
-        setTimeout(() => copiado.style.display = 'none', 3000);
-      });
+      status.innerHTML = `<b>Encontrado!</b><br>Lat: ${lat} <br>Long: ${long}<br><br>Redirecionando...`;
+
+      // Abre o link em 1.5 segundos
+      setTimeout(() => {
+        window.location.href = urlFinal;
+      }, 1500);
     },
     (error) => {
       alert('Erro ao pegar localização: ' + error.message);
-      btn.innerText = 'Clique para capturar';
+      status.style.display = 'none';
+      btn.innerText = 'Usar minha localização agora';
+      btn.disabled = false;
     },
     {
       enableHighAccuracy: true, // GPS mais preciso
